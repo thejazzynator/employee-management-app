@@ -8,6 +8,7 @@
       <th>Phone</th>
       <th>Email</th>
       <th>Position</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -15,8 +16,10 @@
       <td>{{ employee.id }}</td>
       <td>{{ employee.firstName }}</td>
       <td>{{ employee.lastName }}</td>
-      <td>{{ employee.phone }}</td>
+      <td>{{ employee.phoneNumber }}</td>
       <td>{{ employee.email }}</td>
       <td>{{ employee.position }}</td>
+      <td>
+        <button (click)="deleteEmployee(employee.id)">Delete</button>
     </tr>
   </tbody>
