@@ -32,7 +32,7 @@ export class EmployeeService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  editEmployee(id: number): void {
-    this.router.navigate(['/edit', id]);
+  editEmployee(id: number, employee: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.apiUrl}/${id}`, employee);
   }
 }
