@@ -3,18 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './environments/environment';
 import { Observable } from 'rxjs';
 import { Employee } from './models/employee';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeeService {
+  private apiUrl = `${environment.apiUrl}/employee`;
 
-  private apiUrl =`${environment.apiUrl}/employee`;
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl);
+  }
+
+  getEmployeeById(id: number): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
 
   crerateEmployee(employee: Employee): Observable<Employee> {
@@ -23,5 +30,9 @@ export class EmployeeService {
 
   deleteEmployee(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  editEmployee(id: number): void {
+    this.router.navigate(['/edit', id]);
   }
 }
