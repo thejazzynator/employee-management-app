@@ -56,7 +56,9 @@ export class EmployeeFormComponent implements OnInit {
         .editEmployee(this.employee.id, this.employee)
         .subscribe({
           next: () => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/'], {
+              state: { successMessage: 'Employee updated successfully!' },
+            });
           },
           error: (error) => {
             this.errorMessage = 'Failed to update employee. Please try again.';
@@ -64,9 +66,11 @@ export class EmployeeFormComponent implements OnInit {
           },
         });
     } else {
-      this.employeeService.crerateEmployee(this.employee).subscribe({
+      this.employeeService.createEmployee(this.employee).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], {
+            state: { successMessage: 'Employee created successfully!' },
+          });
         },
         error: (error) => {
           this.errorMessage = 'Failed to create employee. Please try again.';

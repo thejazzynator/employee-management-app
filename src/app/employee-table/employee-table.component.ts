@@ -3,6 +3,7 @@ import { EmployeeService } from '../employee.service';
 import { Employee } from '../models/employee';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'employee-table',
@@ -13,11 +14,19 @@ import { Router } from '@angular/router';
 })
 export class EmployeeTableComponent {
   employees: Employee[] = [];
+  successMessage: string = '';
 
   constructor(
     private employeeService: EmployeeService,
     private router: Router,
-  ) {}
+    private location: Location, // removes success message from URL after page reload
+  ) {
+    const nav = this.router.getCurrentNavigation();
+    this.successMessage = nav?.extras?.state?.['successMessage'] ?? '';
+    if (this.successMessage) {
+      this.location.replaceState(this.location.path(), '', {});
+    }
+  }
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe((data: Employee[]) => {
@@ -32,6 +41,7 @@ export class EmployeeTableComponent {
         this.employees = this.employees.filter(
           (employee) => employee.id !== id,
         );
+        this.successMessage = 'Employee deleted successfully!';
         console.log('Employee deleted successfully');
       },
       error: (error) => {
